@@ -14,7 +14,7 @@ pub struct CompressionConfig {
 }
 
 #[serde_inline_default]
-#[derive(Deserialize, Serialize, Clone)]
+#[derive(Deserialize, Serialize, Clone, Debug)]
 /// We have this in a Seperate struct so we can use it outside of the Config
 pub struct CompressionInfo {
     /// The compression threshold used when compression is enabled

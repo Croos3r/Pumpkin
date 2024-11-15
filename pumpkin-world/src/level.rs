@@ -4,6 +4,7 @@ use dashmap::{DashMap, Entry};
 use num_traits::Zero;
 use pumpkin_core::math::vector2::Vector2;
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
+use std::fmt::{Debug, Formatter};
 use tokio::{
     sync::{mpsc, RwLock},
     task::JoinHandle,
@@ -35,7 +36,17 @@ pub struct Level {
     world_gen: Arc<dyn WorldGenerator>,
 }
 
-#[derive(Clone)]
+impl Debug for Level {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("Level")
+            .field("save_file", &self.save_file)
+            .field("loaded_chunks", &self.loaded_chunk_count())
+            .field("chunk_watchers", &self.chunk_watchers.len())
+            .finish()
+    }
+}
+
+#[derive(Clone, Debug)]
 pub struct SaveFile {
     pub root_folder: PathBuf,
     pub region_folder: PathBuf,
